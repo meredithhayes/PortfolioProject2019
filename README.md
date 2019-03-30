@@ -4,16 +4,16 @@ CS201: Portfolio Project of Connect Four
 This project is my version of Connect Four in C prgogramming language. 
 The game is played with arbitrary board size based on user preference; however, anything above 
 an estimate of 80 dimension will start to distort screen. 
-It is preferred the user play on the standard size board: 7 x 6, but the user may enter any reasonable number for dimensions. 
-There are two game modes to the game: single mode (human player vs. computer) and double mode (human player vs. human player).
-The game also keeps track of score (which is shown after each game ie. a winner has been announced) until the user decides to exit by entering 0 for the dimension of columns.
+The standard size board is 7 x 6, but the user may enter any number for the dimensions. 
+There are two modes to the game: single mode (human player vs. computer) and double mode (human player vs. human player).
+The game keeps track of each player's score (including the computer) and is displayed after each game ie. a winner has been announced, until the user decides to exit by entering 0 for the dimension of columns.
  
  General Notes about the Game to User:
- 1) The exit out of program, you must enter "0" in for the opening prompt: Enter number of columns.
- 2) For the prompt "Enter number of columns", if you enter 7 6 (enter) it will assume you meant 7 for columns and 6 for the next prompt, which would be rows. Any other invalid input for columns and/or rows will not be taken and you will be exited out of the game.
+ 1) To exit out of program, you must enter "0" in for the opening prompt: Enter number of columns.
+ 2) You will be asked to enter the desired number of columns and then asked to enter the desired number of rows. If user attempts to enter anything other than an integer, it will be considered invalid and the game will end.  Note: For the prompt "Enter number of columns", if you enter 7 6 (enter) it will assume you meant 7 for columns and 6 for the next prompt, which would be rows.  Also, it is not logical to enter 0 for rows and the program will end in this case. 
  3) When choosing options for single(1) or double(2) mode, until you enter in a "1" or "2", the program will continue to prompt the user.
- 4) The scoreboard keeps track of all series until the user exits out of the program. This will display after each game.
- 5) If the user does not enter in a valid column, the program will just keep prompting the user for which column until a valid column has been entered.
+ 4) The scoreboard keeps track of all game scores until the user exits out of the program. The score will display after each game.
+ 5) If the user does not enter in a valid column, the program will just keep prompting the user until a valid column has been entered.
  6) If the user enters a column number that is already full, the game will terminate and the program will exit because foul play will not be tolerated.
  7) The game board is represented by "0's" (empty cell slots).
  
