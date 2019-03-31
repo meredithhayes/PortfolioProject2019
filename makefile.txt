@@ -1,5 +1,0 @@
-ConnectFour: FinalConnect.c
-	gcc -o ConnectFour FinalConnect.c
-
-
-	
