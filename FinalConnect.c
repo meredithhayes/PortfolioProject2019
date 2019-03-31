@@ -80,25 +80,25 @@ struct Vertex *makeMove(struct Vertex *graph, int horizSize, int vertSize, int m
 
   char *copy = CopyArray(graph->game, horizSize, vertSize);
   int i = 0;
-  while(i < vertSize && *((copy+i*horizSize)+move) == '0') { //prunes previous game states that there are previous game states we cant get back to 
+  while(i < vertSize && *((copy+i*horizSize)+move) == '0') {  
       i++;
   }
   i--;
   *((copy+i*horizSize)+move) = '0' + player;
   struct Vertex *curr = graph;
-  while (curr != NULL) {
-    if (strcmp(curr->game, copy) == 0) {
-      free(copy);
+  while (curr != NULL) {                    //advances through graph for matching element
+    if (strcmp(curr->game, copy) == 0) {    //if finds matching element(game state), frees copy b/c does not anymore
+      free(copy);                         
       break;
     }
-    struct Vertex *temp = curr; //when it finds move, deletes vertex
-    curr = curr->next;
+    struct Vertex *temp = curr;
+    curr = curr->next;                      //advances curr to next entry b/c game states we no longer can reach
     delVertex(temp);
   }
-  if (curr == NULL) {
+  if (curr == NULL) {                       //for Double b/c it won't find "match" b/c only one entry everytime
     curr = newVertex(copy, horizSize);
   }
-  return curr;
+  return curr;                              //returns curr, which is new head of graph or current game state
 }
 
 struct Vertex *HumanPlayer(struct Vertex *graph, int horizSize, int vertSize, int playerNumber) {   //called for "human players" 
@@ -128,24 +128,24 @@ struct Vertex *HumanPlayer(struct Vertex *graph, int horizSize, int vertSize, in
 
 
 
-int ScoreHoriz(char* array, int horizSize, int vertSize, int score[]) {   //array: one entry with value of move to player 1, and then other with player 2
+int ScoreHoriz(char* array, int horizSize, int vertSize, int score[]) {   //array: call by reference
 
-  for (int row = 0; row < vertSize; row++) {                  //from any given starting position, see how many nonzero of same in a row, if 4 returns win, otherwise
-    for (int col = 0; col < horizSize; col++) {               //accumulates offset of who had adjacent pieces
-      for (int ofst = 1; col + ofst < horizSize; ofst++) {     
+  for (int row = 0; row < vertSize; row++) {                  //from any given starting position, see how many nonzero of same in a row
+    for (int col = 0; col < horizSize; col++) {               
+      for (int ofst = 1; col + ofst < horizSize; ofst++) {    //for each starting point, offset starts at 1 to check we are in bounds
         if (array[row * horizSize + col + ofst] == '0') {     //3 in a row more valuable than 2...but does not matter HOW much valuable
           break;
         }
         if (array[row * horizSize + col] != array[row * horizSize + col + ofst]){
           break;
         }
-        if (ofst == 3) {
+        if (ofst == 3) {                                      //win, so return 1
           return 1;
         }
-        if (array[row * horizSize + col] == '1') {
+        if (array[row * horizSize + col] == '1') {            //accumulation of what value of position is to player 1
           score[0] += ofst;
         }
-        else {
+        else {                                               //game state of player 2 
           score[1] += ofst;
         }
       }
@@ -232,7 +232,7 @@ int ScoreRightLeft(char* array, int horizSize, int vertSize, int score[]) {
   return 0;
 }
 
-int ScoreAll(char *array, int horizSize, int vertSize, int score[]) {     //calls all possible scoring functions
+int ScoreAll(char *array, int horizSize, int vertSize, int score[]) {     //scoring done by "short ciruit" evalutation (ie. detecting win takes precedence over anything else)
   return ScoreVert(array, horizSize, vertSize, score) || ScoreHoriz(array, horizSize, vertSize, score)
     || ScoreLeftRight(array, horizSize, vertSize, score) || ScoreRightLeft(array, horizSize, vertSize, score);
 }
@@ -247,7 +247,7 @@ int NoMoves(char *array, int horizSize)     //stalemate function
   return 1;
 }
 
-void DisplayScoreBoard(int scoreboard[]) {    //scoreboard displays after each game
+void DisplayScoreBoard(int scoreboard[]) {    //scoreboard displays after each game; kept as an array to pass better
 
     printf("\n*****SCOREBOARD*****\n");
     printf("Draw: %d\n", scoreboard[0]);
@@ -259,7 +259,7 @@ void DisplayScoreBoard(int scoreboard[]) {    //scoreboard displays after each g
 }
 
 int ScoreMoves(struct Vertex *graph, int horizSize, int vertSize, int move, int player, int turns) {    //looks through vertexes to find moves already calculated
-  if (turns <= 0 || NoMoves(graph->game, horizSize))                                                    //calls other possible moves to add in their values
+  if (turns <= 0 || NoMoves(graph->game, horizSize))                                                    
   {                                                        
     return 0;
   }
@@ -322,14 +322,14 @@ int ScoreMoves(struct Vertex *graph, int horizSize, int vertSize, int move, int 
   return curr->value;
 }
 
-struct Vertex *ComputerPlayer(struct Vertex *graph, int horizSize, int vertSize) {    
+struct Vertex *ComputerPlayer(struct Vertex *graph, int horizSize, int vertSize) {    //tracking for Computer Player
   int move;
   int bestMove;
   int bestScore = -999999999;               //worst value possible because we are going to get negative values anyways
   int score;
   for (int move = 0; move < horizSize; move++) {
     if (*(graph->game+move) == '0') {
-      score = ScoreMoves(graph, horizSize, vertSize, move,  2,  5);        //depth it looks and evaluates
+      score = ScoreMoves(graph, horizSize, vertSize, move,  2,  5);        //depth; it looks and evaluates
       
       if (score > bestScore)  {
         bestScore = score;
@@ -443,7 +443,7 @@ int main(void) {
     while(1) {                                                    //endless loop until terminates (break)
     while(1) {                                                    //Whiles so it may loop back around to menu until exit(0)
       printf("Welcome to Connect Four!\nReady to play?\n");
-      printf("Enter 0 for number of columns to exit.\n");  
+      printf("Enter 0 below (for the number of columns) to exit.\n");  
       printf("Enter number of columns: ");
       
       horizStatus = scanf("%d", &horizSize);                      //checks if user input is valid to proposal
