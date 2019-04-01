@@ -1,7 +1,7 @@
 # PortfolioProject2019
 CS201: Portfolio Project of Connect Four
 
-This project is my version of Connect Four in C prgogramming language. 
+This project is my version of Connect Four in C programming language. 
 The game is played with arbitrary board size based on user preference; however, anything above 
 an estimate of 80 dimension will start to distort screen. 
 The standard size board is 7 x 6, but the user may enter any number for the dimensions. 
