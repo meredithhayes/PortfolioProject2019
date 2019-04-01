@@ -24,7 +24,8 @@ The game keeps track of each player's score (including the computer) and is disp
  Notes about Double(2) Mode:
  1) Player 1 will always go first.
  
-Compiling: There is only one .c file. It is named "FinalConnect.c". Any compilation on a typical compiler for C should suffice for running the game successfully. It is ascii interface based.
+Compiling: There is only one .c file. It is named "FinalConnect.c". Any compilation on a typical compiler for C should suffice for running the game successfully; however, there is a Makefile. In terminal, go to wherever you downloaded the repository and then enter in "make". Then ./PortfolioProject
+It is ascii interface based.
 
 Built with Visual Studio Code.
 
